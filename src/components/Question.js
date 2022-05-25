@@ -1,14 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Question({ question, onAnswered }) {
   const [timeRemaining, setTimeRemaining] = useState(10);
 
+  
+
+  /*
+  Use effect is only running one time, when app loads
+
+
+
+  */
   // add useEffect code
+
+
+  useEffect(()=>{ 
+
+    const counting = setTimeout( ()=>{setTimeRemaining((prev=>prev-1))} ,1000)
+     
+    
+    
+      if (timeRemaining >=1) {(()=>counting)()};
+      if (timeRemaining <=0){onAnswered(false) ; setTimeRemaining(10)}
+
+       return ()=>{return clearTimeout(counting)}
+      } ,[timeRemaining, question]
+  )
+
+
+
+
+
 
   function handleAnswer(isCorrect) {
     setTimeRemaining(10);
     onAnswered(isCorrect);
   }
+
+
+
 
   const { id, prompt, answers, correctIndex } = question;
 
